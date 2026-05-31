@@ -465,7 +465,7 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
 
 <header class="hero" id="top">
   <div class="hero-bg">
-    <video autoplay muted loop playsinline preload="auto">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg">
       <source src="assets/hero-film.mp4" type="video/mp4" />
     </video>
     <div class="hero-veil"></div>
@@ -579,8 +579,8 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
 <!-- STATEMENT -->
 <section class="statement">
   <div class="statement-bg">
-    <video autoplay muted loop playsinline preload="auto">
-      <source src="assets/statement-film.mp4" type="video/mp4" />
+    <video autoplay muted loop playsinline preload="none" poster="assets/statement-poster.jpg">
+      <source data-src="assets/statement-film.mp4" type="video/mp4" />
     </video>
     <div class="veil"></div>
   </div>
@@ -655,18 +655,20 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
 </footer>
 
 <script>
-  // ensure background films autoplay (muted) across browsers
+  // ensure background films autoplay (muted) across browsers; lazy-load any <source data-src>
   (function(){
     const vids = [...document.querySelectorAll('video')];
     if(!vids.length) return;
+    const isLazy = (v)=> !!v.querySelector('source[data-src]');
+    const hydrate = (v)=>{ if(v.dataset.hydrated) return; const s=v.querySelector('source[data-src]'); if(s){ s.src=s.dataset.src; s.removeAttribute('data-src'); v.dataset.hydrated='1'; v.load(); } };
     const play = (v)=>{ v.muted = true; v.defaultMuted = true; const p = v.play(); if(p && p.catch) p.catch(()=>{}); };
-    vids.forEach(v=>{ v.muted=true; v.setAttribute('muted',''); play(v); v.addEventListener('canplay', ()=>play(v), { once:true }); });
-    window.addEventListener('load', ()=>vids.forEach(play));
+    vids.forEach(v=>{ v.muted=true; v.setAttribute('muted',''); if(!isLazy(v)){ play(v); v.addEventListener('canplay', ()=>play(v), { once:true }); } });
+    window.addEventListener('load', ()=>vids.forEach(v=>{ if(!isLazy(v)) play(v); }));
     if('IntersectionObserver' in window){
-      const vio = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting) play(e.target); }), { threshold:0.1 });
+      const vio = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ hydrate(e.target); play(e.target); } }), { threshold:0.1, rootMargin:'200px 0px' });
       vids.forEach(v=>vio.observe(v));
-    }
-    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) vids.forEach(play); });
+    } else { vids.forEach(v=>{ hydrate(v); play(v); }); }
+    document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) vids.forEach(v=>{ if(!isLazy(v)) play(v); }); });
   })();
 
   const nav = document.getElementById('nav');
