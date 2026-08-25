@@ -374,11 +374,8 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
 .sw-right .w{ transform:translateX(0.6em); }
 .sw-scale .w{ transform:scale(.55); }
 @media(prefers-reduced-motion:reduce){ [data-splitwords] .w{ opacity:1; transform:none; filter:none; transition:none; } }
-.caps[data-splitwords] .w{ background:linear-gradient(180deg,#f4f4f5 0%, #8d8d93 80%, #6c6c72 100%) no-repeat; -webkit-background-clip:text; background-clip:text; color:transparent; }
 
 /* animation polish */
-.display.caps{ background-size:100% 280%; animation:sheen 9s ease-in-out infinite; }
-@keyframes sheen{ 0%,100%{ background-position:50% 0%; } 50%{ background-position:50% 100%; } }
 .pf-card{ transition:background .35s, transform .45s cubic-bezier(.2,.7,.2,1); }
 .pf-card:hover{ transform:translateY(-5px); }
 
@@ -709,42 +706,8 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
       el.innerHTML = out.map((p)=> '<span class="w'+(p[1]?' '+p[1]:'')+'">'+p[0]+'</span>').join(' ');
       el.querySelectorAll('.w').forEach((w,i)=>{ w.style.transitionDelay=(i*0.045)+'s'; });
     };
-    const map=[['.hero .display','sw-up'],['.hero .sub','sw-up'],['#approach h2.h2','sw-up'],['#criteria h2.h2','sw-up'],['#strategy h2.h2','sw-up'],['.statement p','sw-up'],['#investments h2.h2','sw-up'],['.contact .display','sw-up'],['.lead','sw-up']];
+    const map=[['.hero .sub','sw-up'],['#approach h2.h2','sw-up'],['#criteria h2.h2','sw-up'],['#strategy h2.h2','sw-up'],['.statement p','sw-up'],['#investments h2.h2','sw-up'],['.lead','sw-up']];
     map.forEach((m)=> document.querySelectorAll(m[0]).forEach((el)=> splitEl(el, m[1])));
-
-    // each word carries its own copy of the heading gradient, which would restart
-    // the ramp on every line — offset each copy so they read as one gradient.
-    const translateY = (m)=>{
-      if(!m || m === 'none') return 0;
-      const two = m.match(/^matrix\(([^)]+)\)/);
-      if(two) return parseFloat(two[1].split(',')[5]) || 0;
-      const three = m.match(/^matrix3d\(([^)]+)\)/);
-      if(three) return parseFloat(three[1].split(',')[13]) || 0;
-      return 0;
-    };
-    const alignGradient = (el)=>{
-      const box = el.getBoundingClientRect();
-      if(!box.height) return;
-      el.querySelectorAll('.w').forEach((w)=>{
-        // back out the reveal transform so this is the settled layout position
-        const y = (w.getBoundingClientRect().top - box.top) - translateY(getComputedStyle(w).transform);
-        w.style.backgroundSize = '100% ' + Math.round(box.height) + 'px';
-        w.style.backgroundPosition = '0 ' + (-Math.round(y)) + 'px';
-      });
-    };
-    const capsHeads = document.querySelectorAll('.caps[data-splitwords]');
-    const alignAll = ()=> capsHeads.forEach(alignGradient);
-    alignAll();
-    // re-align whenever the heading's box actually changes (font swap, resize, rewrap)
-    if('ResizeObserver' in window){
-      const ro = new ResizeObserver(()=> capsHeads.forEach(alignGradient));
-      capsHeads.forEach((el)=> ro.observe(el));
-    } else {
-      let alignTick;
-      window.addEventListener('resize', ()=>{ clearTimeout(alignTick); alignTick=setTimeout(alignAll, 120); });
-    }
-    if(document.fonts && document.fonts.ready) document.fonts.ready.then(alignAll);
-    window.addEventListener('load', alignAll);
   })();
 
   const reveals = document.querySelectorAll('[data-reveal]');
