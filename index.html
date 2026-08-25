@@ -124,19 +124,22 @@ section{ position:relative; }
 .statement p .em{ color:var(--accent); }
 
 /* investments */
-.pf2{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(22px,2.4vw,34px); margin:44px auto 0; max-width:1080px; }
+.pf2{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,2vw,28px); margin:44px auto 0; max-width:1180px; }
 .pf-card{ background:var(--bg); padding:0; transition:background .35s; cursor:pointer; display:flex; flex-direction:column; border:1px solid var(--line-soft); border-radius:16px; overflow:hidden; }
 .pf-card:hover{ background:var(--bg-3); }
-.pf-logo{ aspect-ratio:16/6; background:#F4F4F5; display:grid; place-items:center; padding:6% 12%; }
-.pf-logo img{ width:auto; max-width:80%; max-height:64%; object-fit:contain; }
+.pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:8% 12%; }
+.pf-logo img{ width:auto; max-width:84%; max-height:58%; object-fit:contain; }
+.pf-logo img[src*="hyperbuilt"]{ width:100%; max-width:100%; height:auto; } /* single-line wordmark: small intrinsic size, so set width explicitly to match optical weight */
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+.pf-badge{ position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:5px; background:var(--bg-2); color:var(--tx); border-radius:999px; padding:5px 10px 5px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1; box-shadow:0 6px 16px -8px rgba(0,0,0,.55); }
+.pf-badge svg{ width:11px; height:11px; flex:none; fill:var(--accent); }
 .pf-card h3{ font-size:1.45rem; font-weight:600; margin:14px 0 12px; letter-spacing:-0.01em; }
 .pf-card p{ font-size:0.96rem; color:var(--tx-mut); max-width:46ch; }
 .pf-card .more{ margin-top:24px; display:inline-flex; align-items:center; gap:.6em; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:var(--tx); }
 .pf-card .more .arr{ color:var(--accent); transition:transform .35s cubic-bezier(.2,.7,.2,1); }
 .pf-card:hover .more .arr{ transform:translateX(5px); }
-@media(max-width:820px){ .pf2{ grid-template-columns:1fr; } }
+@media(max-width:980px){ .pf2{ grid-template-columns:1fr; max-width:600px; } }
 
 /* investments — image feature cards */
 .imp-row{ display:grid; grid-template-columns:1.55fr 1fr; gap:18px; margin-top:56px; }
@@ -601,7 +604,16 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
     </div>
     <div class="pf2">
       <article class="pf-card" data-reveal>
-        <div class="pf-logo"><img src="assets/bravo-site-services.svg" alt="Bravo Site Services" /></div>
+        <div class="pf-logo"><img src="assets/corratel-healthcare.png" alt="Corratel Healthcare" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
+        <div class="pf-body">
+          <span class="tag">Healthcare Staffing</span>
+          <h3>Corratel Healthcare</h3>
+          <p>A Joint Commission Certified healthcare staffing firm focused on filling the increasing demand for top-tier, experienced clinicians in medical facilities nationwide.</p>
+          <div class="pf-meta"><span class="pf-chip">JCAHO Certified</span><span class="pf-chip">Nationwide</span><span class="pf-chip">Clinical Staffing</span></div>
+        </div>
+      </article>
+      <article class="pf-card" data-reveal data-d="1">
+        <div class="pf-logo"><img src="assets/bravo-site-services.svg" alt="Bravo Site Services" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
         <div class="pf-body">
           <span class="tag">Site Services</span>
           <h3>Bravo Site Services</h3>
@@ -609,13 +621,13 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
           <div class="pf-meta"><span class="pf-chip">Portable Restrooms</span><span class="pf-chip">Temporary Fencing</span><span class="pf-chip">Restroom Trailers</span></div>
         </div>
       </article>
-      <article class="pf-card" data-reveal data-d="1">
-        <div class="pf-logo"><img src="assets/corratel-healthcare.png" alt="Corratel Healthcare" /></div>
+      <article class="pf-card" data-reveal data-d="2">
+        <div class="pf-logo"><img src="assets/hyperbuilt.svg" alt="Hyperbuilt" /></div>
         <div class="pf-body">
-          <span class="tag">Healthcare Staffing</span>
-          <h3>Corratel Healthcare</h3>
-          <p>A Joint Commission Certified healthcare staffing firm focused on filling the increasing demand for top-tier, experienced clinicians in medical facilities nationwide.</p>
-          <div class="pf-meta"><span class="pf-chip">JCAHO Certified</span><span class="pf-chip">Nationwide</span><span class="pf-chip">Clinical Staffing</span></div>
+          <span class="tag">Defense Manufacturing</span>
+          <h3>Hyperbuilt</h3>
+          <p>An autonomous precision manufacturing firm serving defense — reverse engineering, producing, and qualifying the sole-source and obsolete parts America can no longer make.</p>
+          <div class="pf-meta"><span class="pf-chip">Precision Machining</span><span class="pf-chip">Autonomous Production</span><span class="pf-chip">Sole-Source Parts</span></div>
         </div>
       </article>
     </div>
