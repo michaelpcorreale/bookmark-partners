@@ -129,7 +129,7 @@ section{ position:relative; }
 .pf-card:hover{ background:var(--bg-3); }
 .pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:8% 12%; }
 .pf-logo img{ width:auto; max-width:84%; max-height:58%; object-fit:contain; }
-.pf-logo img[src*="hyperbuilt"]{ width:100%; max-width:100%; height:auto; } /* single-line wordmark: small intrinsic size, so set width explicitly to match optical weight */
+.pf-logo img[src*="hyperbuilt"]{ width:100%; max-width:100%; max-height:none; height:auto; } /* wide single-line wordmark: overrides the default caps so it fills the plate width */
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
 .pf-badge{ position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:5px; background:var(--bg-2); color:var(--tx); border-radius:999px; padding:5px 10px 5px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1; box-shadow:0 6px 16px -8px rgba(0,0,0,.55); }
