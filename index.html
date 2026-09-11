@@ -124,12 +124,15 @@ section{ position:relative; }
 .statement p .em{ color:var(--accent); }
 
 /* investments */
-.pf2{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,2vw,28px); margin:44px auto 0; max-width:1180px; }
+.pf2{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(20px,2vw,28px); margin:44px auto 0; max-width:860px; }
 .pf-card{ background:var(--bg); padding:0; transition:background .35s; cursor:pointer; display:flex; flex-direction:column; border:1px solid var(--line-soft); border-radius:16px; overflow:hidden; }
 .pf-card:hover{ background:var(--bg-3); }
 .pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:8% 12%; }
-.pf-logo img{ width:auto; max-width:84%; max-height:58%; object-fit:contain; }
-.pf-logo img[src*="hyperbuilt"]{ width:100%; max-width:100%; max-height:none; height:auto; } /* wide single-line wordmark: overrides the default caps so it fills the plate width */
+.pf-logo img{ width:auto; max-width:84%; max-height:47%; object-fit:contain; }
+/* wide single-line wordmarks: sized by width instead of the default height cap.
+   widths are paired so both marks' visible artwork renders at the same height */
+.pf-logo img[src*="hyperbuilt"]{ width:86.9%; max-width:86.9%; max-height:none; height:auto; }
+.pf-logo img[src*="hawker"]{ width:68%; max-width:68%; max-height:none; height:auto; }
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
 .pf-badge{ position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:5px; background:var(--bg-2); color:var(--tx); border-radius:999px; padding:5px 10px 5px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1; box-shadow:0 6px 16px -8px rgba(0,0,0,.55); }
@@ -619,6 +622,15 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
         </div>
       </article>
       <article class="pf-card" data-reveal data-d="2">
+        <div class="pf-logo"><img src="assets/hawker.svg" alt="Hawker Security" /></div>
+        <div class="pf-body">
+          <span class="tag">Commercial Security</span>
+          <h3>Hawker Security</h3>
+          <p>A commercial security integrator designing, installing, and servicing access control, video surveillance, and intrusion systems for businesses and facilities.</p>
+          <div class="pf-meta"><span class="pf-chip">Access Control</span><span class="pf-chip">Video Surveillance</span><span class="pf-chip">Systems Integration</span></div>
+        </div>
+      </article>
+      <article class="pf-card" data-reveal data-d="3">
         <div class="pf-logo"><img src="assets/hyperbuilt.svg" alt="Hyperbuilt" /></div>
         <div class="pf-body">
           <span class="tag">Defense Manufacturing</span>
