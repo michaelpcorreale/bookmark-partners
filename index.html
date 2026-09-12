@@ -144,19 +144,23 @@ section{ position:relative; }
 .pf2{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,1.6vw,24px); margin:44px auto 0; }
 .pf-card{ background:var(--bg); padding:0; transition:background .35s; cursor:pointer; display:flex; flex-direction:column; border:1px solid var(--line-soft); border-radius:16px; overflow:hidden; }
 .pf-card:hover{ background:var(--bg-3); }
-.pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:8% 12%; }
-.pf-logo img{ width:auto; max-width:84%; max-height:47%; object-fit:contain; }
+.pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:7% 7%; }
+.pf-logo img{ width:auto; max-width:88%; max-height:58%; object-fit:contain; }
 /* wide single-line wordmarks: sized by width instead of the default height cap.
-   widths are paired so both marks' visible artwork renders at the same height */
-.pf-logo img[src*="hyperbuilt"]{ width:86.9%; max-width:86.9%; max-height:none; height:auto; }
-.pf-logo img[src*="hawker"]{ width:68%; max-width:68%; max-height:none; height:auto; }
-/* four-across cards are ~285-330px wide, so the percentage caps above shrink every logo;
-   restore their size for that layout only. hawker:hyperbuilt width stays 1:1.2775 so heights still match */
+   hawker is paired to hyperbuilt by equal ink area (hawker width = 0.775 x hyperbuilt width), not equal height:
+   hawker is far more compact, so matching heights made it read noticeably smaller */
+.pf-logo img[src*="hyperbuilt"]{ width:97%; max-width:97%; max-height:none; height:auto; }
+.pf-logo img[src*="hawker"]{ width:75.2%; max-width:75.2%; max-height:none; height:auto; }
+/* four-across cards are ~285-330px wide: the wide wordmarks are capped by card width, so trim the
+   plate height instead to cut empty space, and pull the badge into the corner to keep it off the logo.
+   hawker:hyperbuilt width stays 0.775:1 (equal ink area). (.pf-logo prefix: the base .pf-badge rule comes later) */
 @media(min-width:1320px){
-  .pf-logo{ padding:8% 8%; }
-  .pf-logo img{ max-height:58%; }
-  .pf-logo img[src*="hawker"]{ width:74.2%; max-width:74.2%; }
-  .pf-logo img[src*="hyperbuilt"]{ width:94.8%; max-width:94.8%; }
+  .pf-logo{ aspect-ratio:16/7; padding:6% 6%; }
+  .pf-logo img{ max-width:90%; max-height:62%; }
+  .pf-logo img[src*="hawker"]{ width:76%; max-width:76%; }
+  .pf-logo img[src*="hyperbuilt"]{ width:98%; max-width:98%; }
+  .pf-logo .pf-badge{ top:8px; left:8px; padding:4px 8px 4px 7px; font-size:8.5px; gap:4px; }
+  .pf-logo .pf-badge svg{ width:10px; height:10px; }
 }
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
