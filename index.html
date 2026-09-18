@@ -141,27 +141,13 @@ section{ position:relative; }
 .statement p .em{ color:var(--accent); }
 
 /* investments */
-.pf2{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,1.6vw,24px); margin:44px auto 0; }
+.pf2{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,2vw,28px); margin:44px auto 0; max-width:1320px; }
 .pf-card{ background:var(--bg); padding:0; transition:background .35s; cursor:pointer; display:flex; flex-direction:column; border:1px solid var(--line-soft); border-radius:16px; overflow:hidden; }
 .pf-card:hover{ background:var(--bg-3); }
 .pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:7% 7%; }
 .pf-logo img{ width:auto; max-width:88%; max-height:58%; object-fit:contain; }
-/* wide single-line wordmarks: sized by width instead of the default height cap.
-   hawker is paired to hyperbuilt by equal ink area (hawker width = 0.775 x hyperbuilt width), not equal height:
-   hawker is far more compact, so matching heights made it read noticeably smaller */
+/* wide single-line wordmark: sized by width instead of the default height cap */
 .pf-logo img[src*="hyperbuilt"]{ width:97%; max-width:97%; max-height:none; height:auto; }
-.pf-logo img[src*="hawker"]{ width:75.2%; max-width:75.2%; max-height:none; height:auto; }
-/* four-across cards are ~285-330px wide: the wide wordmarks are capped by card width, so trim the
-   plate height instead to cut empty space, and pull the badge into the corner to keep it off the logo.
-   hawker:hyperbuilt width stays 0.775:1 (equal ink area). (.pf-logo prefix: the base .pf-badge rule comes later) */
-@media(min-width:1320px){
-  .pf-logo{ aspect-ratio:16/7; padding:6% 6%; }
-  .pf-logo img{ max-width:90%; max-height:62%; }
-  .pf-logo img[src*="hawker"]{ width:76%; max-width:76%; }
-  .pf-logo img[src*="hyperbuilt"]{ width:98%; max-width:98%; }
-  .pf-logo .pf-badge{ top:8px; left:8px; padding:4px 8px 4px 7px; font-size:8.5px; gap:4px; }
-  .pf-logo .pf-badge svg{ width:10px; height:10px; }
-}
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
 .pf-badge{ position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:5px; background:var(--bg-2); color:var(--tx); border-radius:999px; padding:5px 10px 5px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1; box-shadow:0 6px 16px -8px rgba(0,0,0,.55); }
@@ -171,8 +157,7 @@ section{ position:relative; }
 .pf-card .more{ margin-top:24px; display:inline-flex; align-items:center; gap:.6em; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:var(--tx); }
 .pf-card .more .arr{ color:var(--accent); transition:transform .35s cubic-bezier(.2,.7,.2,1); }
 .pf-card:hover .more .arr{ transform:translateX(5px); }
-@media(max-width:1319px){ .pf2{ grid-template-columns:repeat(2,1fr); max-width:860px; gap:clamp(20px,2vw,28px); } }
-@media(max-width:700px){ .pf2{ grid-template-columns:1fr; max-width:600px; } }
+@media(max-width:999px){ .pf2{ grid-template-columns:1fr; max-width:600px; } }
 
 /* investments — image feature cards */
 .imp-row{ display:grid; grid-template-columns:1.55fr 1fr; gap:18px; margin-top:56px; }
@@ -652,21 +637,12 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
         </div>
       </article>
       <article class="pf-card" data-reveal data-d="2">
-        <div class="pf-logo"><img src="assets/hawker.svg" alt="Hawker Security" /></div>
-        <div class="pf-body">
-          <span class="tag">Commercial Security</span>
-          <h3>Hawker Security</h3>
-          <p>A commercial security integrator designing, installing, and servicing access control, video surveillance, and intrusion systems for businesses and facilities.</p>
-          <div class="pf-meta"><span class="pf-chip">Access Control</span><span class="pf-chip">Video Surveillance</span><span class="pf-chip">Systems Integration</span></div>
-        </div>
-      </article>
-      <article class="pf-card" data-reveal data-d="3">
         <div class="pf-logo"><img src="assets/hyperbuilt.svg" alt="Hyperbuilt" /></div>
         <div class="pf-body">
           <span class="tag">Defense Manufacturing</span>
           <h3>Hyperbuilt</h3>
-          <p>An autonomous precision manufacturing firm serving defense — reverse engineering, producing, and qualifying the sole-source and obsolete parts America can no longer make.</p>
-          <div class="pf-meta"><span class="pf-chip">Precision Machining</span><span class="pf-chip">Autonomous Production</span><span class="pf-chip">Sole-Source Parts</span></div>
+          <p>Hyperbuilt makes the machined metal missiles are built from — nozzles, igniters and cases — in robot-tended automated cells that measure every part and run through the night.</p>
+          <div class="pf-meta"><span class="pf-chip">Missile Components</span><span class="pf-chip">Automated Machining</span><span class="pf-chip">Made in America</span></div>
         </div>
       </article>
     </div>
