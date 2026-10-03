@@ -141,27 +141,28 @@ section{ position:relative; }
 .statement p .em{ color:var(--accent); }
 
 /* investments */
-.pf2{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,1.6vw,24px); margin:44px auto 0; }
+.pf-group{ --pf-gap:clamp(20px,2vw,28px); max-width:1320px; margin:44px auto 0; }
+.pf-group + .pf-group{ margin-top:clamp(44px,5vw,76px); }
+.pf-group-label{ display:flex; align-items:center; gap:18px; margin-bottom:30px; font-size:clamp(15px,1.25vw,18px); letter-spacing:.2em; text-transform:uppercase; font-weight:700; color:var(--accent); }
+.pf-group-label::before{ content:""; width:34px; height:3px; border-radius:2px; background:currentColor; flex:none; }
+.pf-group-label::after{ content:""; flex:1; height:1px; background:var(--line); }
+.pf-group-label .n{ font-size:11px; letter-spacing:.14em; font-weight:600; color:var(--tx-dim); }
+/* exited reads as the quieter, past-tense group */
+.pf-group--exited .pf-group-label{ color:var(--tx-mut); }
+.pf-group--exited .pf-card{ opacity:.92; }
+/* flex rather than grid: a short row sits under its group label instead of being stretched */
+.pf2{ display:flex; flex-wrap:wrap; gap:var(--pf-gap); }
+.pf2 > .pf-card{ width:calc((100% - 2 * var(--pf-gap)) / 3); }
 .pf-card{ background:var(--bg); padding:0; transition:background .35s; cursor:pointer; display:flex; flex-direction:column; border:1px solid var(--line-soft); border-radius:16px; overflow:hidden; }
 .pf-card:hover{ background:var(--bg-3); }
 .pf-logo{ position:relative; aspect-ratio:16/7.5; background:#F4F4F5; display:grid; place-items:center; padding:7% 7%; }
 .pf-logo img{ width:auto; max-width:88%; max-height:58%; object-fit:contain; }
 /* wide single-line wordmarks: sized by width instead of the default height cap.
-   belmont is paired to hyperbuilt by equal ink area (belmont width = 0.876 x hyperbuilt width), not equal
-   height: belmont is much more compact, so matching heights would make it read smaller */
+   belmont (0.876) and bond (0.697) are paired to hyperbuilt by equal ink area, not equal height: both are
+   much more compact, so matching heights would make them read smaller */
 .pf-logo img[src*="hyperbuilt"]{ width:97%; max-width:97%; max-height:none; height:auto; }
 .pf-logo img[src*="belmont"]{ width:85%; max-width:85%; max-height:none; height:auto; }
-/* four-across cards are ~285-330px wide: hyperbuilt is capped by card width, so trim the plate
-   height instead to cut empty space, and pull the badge into the corner to keep it off the logo.
-   (.pf-logo prefix: the base .pf-badge rule comes later) */
-@media(min-width:1320px){
-  .pf-logo{ aspect-ratio:16/7; padding:6% 6%; }
-  .pf-logo img{ max-width:90%; max-height:62%; }
-  .pf-logo img[src*="hyperbuilt"]{ width:98%; max-width:98%; }
-  .pf-logo img[src*="belmont"]{ width:85.8%; max-width:85.8%; }
-  .pf-logo .pf-badge{ top:8px; left:8px; padding:4px 8px 4px 7px; font-size:8.5px; gap:4px; }
-  .pf-logo .pf-badge svg{ width:10px; height:10px; }
-}
+.pf-logo img[src*="bond"]{ width:67.6%; max-width:67.6%; max-height:none; height:auto; }
 .pf-body{ padding:26px 30px 32px; }
 .pf-card .tag{ font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:600; }
 .pf-badge{ position:absolute; top:12px; left:12px; z-index:2; display:inline-flex; align-items:center; gap:5px; background:var(--bg-2); color:var(--tx); border-radius:999px; padding:5px 10px 5px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; line-height:1; box-shadow:0 6px 16px -8px rgba(0,0,0,.55); }
@@ -171,8 +172,8 @@ section{ position:relative; }
 .pf-card .more{ margin-top:24px; display:inline-flex; align-items:center; gap:.6em; font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; color:var(--tx); }
 .pf-card .more .arr{ color:var(--accent); transition:transform .35s cubic-bezier(.2,.7,.2,1); }
 .pf-card:hover .more .arr{ transform:translateX(5px); }
-@media(max-width:1319px){ .pf2{ grid-template-columns:repeat(2,1fr); max-width:860px; gap:clamp(20px,2vw,28px); } }
-@media(max-width:700px){ .pf2{ grid-template-columns:1fr; max-width:600px; } }
+@media(max-width:1179px){ .pf-group{ max-width:880px; } .pf2 > .pf-card{ width:calc((100% - var(--pf-gap)) / 2); } }
+@media(max-width:700px){ .pf-group{ max-width:600px; } .pf2 > .pf-card{ width:100%; } }
 
 /* investments — image feature cards */
 .imp-row{ display:grid; grid-template-columns:1.55fr 1fr; gap:18px; margin-top:56px; }
@@ -632,43 +633,61 @@ body::before{ content:""; position:fixed; inset:0; z-index:40; pointer-events:no
         <h2 class="h2" data-reveal data-d="1" style="margin-top:22px; max-width:20ch; font-weight:500">Selected investments illustrating how our operating systems translate into scalable growth.</h2>
       </div>
     </div>
-    <div class="pf2">
-      <article class="pf-card" data-reveal>
-        <div class="pf-logo"><img src="assets/corratel-healthcare.png" alt="Corratel Healthcare" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
-        <div class="pf-body">
-          <span class="tag">Healthcare Staffing</span>
-          <h3>Corratel Healthcare</h3>
-          <p>A Joint Commission Certified healthcare staffing firm focused on filling the increasing demand for top-tier, experienced clinicians in medical facilities nationwide.</p>
-          <div class="pf-meta"><span class="pf-chip">JCAHO Certified</span><span class="pf-chip">Nationwide</span><span class="pf-chip">Clinical Staffing</span></div>
-        </div>
-      </article>
-      <article class="pf-card" data-reveal data-d="1">
-        <div class="pf-logo"><img src="assets/bravo-site-services.svg" alt="Bravo Site Services" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
-        <div class="pf-body">
-          <span class="tag">Site Services</span>
-          <h3>Bravo Site Services</h3>
-          <p>Your trusted partner for all site needs — portable restrooms, hand hygiene stations, temporary fencing, restroom trailers, holding tanks, and more.</p>
-          <div class="pf-meta"><span class="pf-chip">Portable Restrooms</span><span class="pf-chip">Temporary Fencing</span><span class="pf-chip">Restroom Trailers</span></div>
-        </div>
-      </article>
-      <article class="pf-card" data-reveal data-d="2">
-        <div class="pf-logo"><img src="assets/belmont.svg" alt="Belmont Residential" /></div>
-        <div class="pf-body">
-          <span class="tag">Property Management</span>
-          <h3>Belmont Residential</h3>
-          <p>Belmont scales leading co-op, condo and HOA management firms — adding centralized accounting, technology and talent behind the brand and leadership their boards already trust.</p>
-          <div class="pf-meta"><span class="pf-chip">Association Management</span><span class="pf-chip">Co-op &amp; Condo</span><span class="pf-chip">Board Services</span></div>
-        </div>
-      </article>
-      <article class="pf-card" data-reveal data-d="3">
-        <div class="pf-logo"><img src="assets/hyperbuilt.svg" alt="Hyperbuilt Industries" /></div>
-        <div class="pf-body">
-          <span class="tag">Defense Manufacturing</span>
-          <h3>Hyperbuilt Industries</h3>
-          <p>Hyperbuilt makes the machined metal missiles are built from — nozzles, igniters and cases — in robot-tended automated cells that measure every part and run through the night.</p>
-          <div class="pf-meta"><span class="pf-chip">Missile Components</span><span class="pf-chip">Automated Machining</span><span class="pf-chip">Made in America</span></div>
-        </div>
-      </article>
+    <div class="pf-group" data-reveal>
+      <span class="pf-group-label">Current<span class="n">3 companies</span></span>
+      <div class="pf2">
+        <article class="pf-card" data-reveal>
+          <div class="pf-logo"><img src="assets/belmont.svg" alt="Belmont Residential" /></div>
+          <div class="pf-body">
+            <span class="tag">Property Management</span>
+            <h3>Belmont Residential</h3>
+            <p>Belmont scales leading co-op, condo and HOA management firms — adding centralized accounting, technology and talent behind the brand and leadership their boards already trust.</p>
+            <div class="pf-meta"><span class="pf-chip">Association Management</span><span class="pf-chip">Co-op &amp; Condo</span><span class="pf-chip">Board Services</span></div>
+          </div>
+        </article>
+        <article class="pf-card" data-reveal data-d="1">
+          <div class="pf-logo"><img src="assets/bond.svg" alt="Bond Technology" /></div>
+          <div class="pf-body">
+            <span class="tag">IT &amp; Cybersecurity</span>
+            <h3>Bond Technology</h3>
+            <p>An IT managed service provider for small and mid-sized businesses — helpdesk, networks and security monitoring — bringing proven regional MSPs under one operating standard.</p>
+            <div class="pf-meta"><span class="pf-chip">Managed Service Provider</span><span class="pf-chip">Cybersecurity</span><span class="pf-chip">Remote Monitoring</span></div>
+          </div>
+        </article>
+        <article class="pf-card" data-reveal data-d="2">
+          <div class="pf-logo"><img src="assets/hyperbuilt.svg" alt="Hyperbuilt Industries" /></div>
+          <div class="pf-body">
+            <span class="tag">Defense Manufacturing</span>
+            <h3>Hyperbuilt Industries</h3>
+            <p>Hyperbuilt makes the machined metal missiles are built from — nozzles, igniters and cases — in robot-tended automated cells that measure every part and run through the night.</p>
+            <div class="pf-meta"><span class="pf-chip">Missile Components</span><span class="pf-chip">Automated Machining</span><span class="pf-chip">Made in America</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="pf-group pf-group--exited" data-reveal>
+      <span class="pf-group-label">Exited<span class="n">2 companies</span></span>
+      <div class="pf2">
+        <article class="pf-card" data-reveal>
+          <div class="pf-logo"><img src="assets/corratel-healthcare.png" alt="Corratel Healthcare" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
+          <div class="pf-body">
+            <span class="tag">Healthcare Staffing</span>
+            <h3>Corratel Healthcare</h3>
+            <p>A Joint Commission Certified healthcare staffing firm focused on filling the increasing demand for top-tier, experienced clinicians in medical facilities nationwide.</p>
+            <div class="pf-meta"><span class="pf-chip">JCAHO Certified</span><span class="pf-chip">Nationwide</span><span class="pf-chip">Clinical Staffing</span></div>
+          </div>
+        </article>
+        <article class="pf-card" data-reveal data-d="1">
+          <div class="pf-logo"><img src="assets/bravo-site-services.svg" alt="Bravo Site Services" /><span class="pf-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.21l-5.88 3.1 1.12-6.55L2.48 9.12l6.58-.96L12 2.2z"/></svg>Acquired</span></div>
+          <div class="pf-body">
+            <span class="tag">Site Services</span>
+            <h3>Bravo Site Services</h3>
+            <p>Your trusted partner for all site needs — portable restrooms, hand hygiene stations, temporary fencing, restroom trailers, holding tanks, and more.</p>
+            <div class="pf-meta"><span class="pf-chip">Portable Restrooms</span><span class="pf-chip">Temporary Fencing</span><span class="pf-chip">Restroom Trailers</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
     </div>
   </div>
 </section>
